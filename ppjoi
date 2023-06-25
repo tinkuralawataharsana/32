@@ -1,0 +1,26 @@
+import requests
+import json
+
+def create_github_repository(repo_name, access_token):
+    headers = {
+        'Authorization': f'token {access_token}',
+        'Accept': 'application/vnd.github.v3+json'
+    }
+    data = {
+        'name': repo_name,
+        'auto_init': True
+    }
+    url = 'https://api.github.com/user/repos'
+
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    
+    if response.status_code == 201:
+        print('Репозиторий успешно создан!')
+    else:
+        print('Не удалось создать репозиторий.')
+        print(f'Код ответа: {response.status_code}')
+        print(f'Сообщение об ошибке: {response.json()["message"]}')
+
+# Замените <ВАШ_ТОКЕН> на ваш собственный персональный токен доступа GitHub
+# И замените <ИМЯ_РЕПОЗИТОРИЯ> на имя, которое вы хотите присвоить своему репозиторию
+create_github_repository('<ИМЯ_РЕПОЗИТОРИЯ>', '<ВАШ_ТОКЕН>')
